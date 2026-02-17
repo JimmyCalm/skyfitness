@@ -5,6 +5,7 @@ import { getAllCourses } from "@/api/courses";
 import { Card, CardContent, CardDescription, CardHeader, CardFooter, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import  Link  from "next/link";
 
 export default function Home() {
   const { data: courses = [], isLoading, error } = useQuery({
@@ -44,7 +45,8 @@ export default function Home() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
-            <Card key={course._id} className="overflow-hidden hover:shadow-lg transition-shadow">
+            <Link key={course._id} href={`/courses/${course._id}`}>
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="text-lg">{course.nameRU || course.nameEN}</CardTitle>
                 <CardDescription className="line-clamp-3">
@@ -66,6 +68,7 @@ export default function Home() {
                 <Button className="w-full">Подробнее</Button>
               </CardFooter>
             </Card>
+            </Link>
           ))}
         </div>
       )}
