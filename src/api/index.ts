@@ -11,7 +11,15 @@ api.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
-  return config;
+
+  const method = config.method?.toLowerCase();
+  if (['post', 'put', 'patch'].includes(method ?? '')) {
+    if (config.data && typeof config.data === 'object' && !(config.data instanceof FormData)) {
+      config.data = JSON.stringify(config.data);
+  }
+  config.headers['Content-Type'] = 'text/plain';
+}
+return config;
 });
 
 api.interceptors.response.use(
